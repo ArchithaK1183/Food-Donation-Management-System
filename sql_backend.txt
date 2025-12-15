@@ -1,0 +1,61 @@
+-- ================= DATABASE CREATION =================
+CREATE DATABASE food_donation;
+USE food_donation;
+
+-- ================= USERS TABLE =================
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    role VARCHAR(20) NOT NULL
+);
+
+-- ================= DONATIONS TABLE =================
+CREATE TABLE donations (
+    donation_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    food_type VARCHAR(100),
+    quantity INT,
+    location VARCHAR(200),
+    expiry_time DATETIME,
+    status VARCHAR(20),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+-- ================= REQUESTS TABLE =================
+CREATE TABLE requests (
+    request_id INT AUTO_INCREMENT PRIMARY KEY,
+    donation_id INT,
+    receiver_id INT,
+    request_status VARCHAR(20),
+    FOREIGN KEY (donation_id) REFERENCES donations(donation_id),
+    FOREIGN KEY (receiver_id) REFERENCES users(user_id)
+);
+
+-- ================= SAMPLE DATA =================
+INSERT INTO users (name, email, password, role) VALUES
+('architha', 'architha9998.com', '1234', 'Donor'),
+('chinnu', 'chinnu@gmail.com', '1234', 'Receiver');
+
+INSERT INTO donations (user_id, food_type, quantity, location, expiry_time, status) VALUES
+(1, 'Rice', 20, 'bangloore', '2025-01-15 20:00:00', 'Available');
+
+INSERT INTO requests (donation_id, receiver_id, request_status) VALUES
+(1, 2, 'Pending');
+
+-- ================= USEFUL QUERIES =================
+-- View all available donations
+SELECT * FROM donations WHERE status = 'Available';
+
+-- View donor-wise donations
+SELECT * FROM donations WHERE user_id = 1;
+
+-- View receiver requests
+SELECT * FROM requests WHERE receiver_id = 2;
+
+-- Update request status
+UPDATE requests SET request_status = 'Approved' WHERE request_id = 1;
+
+-- Update donation status
+UPDATE donations SET status = 'Completed' WHERE donation_id = 1;

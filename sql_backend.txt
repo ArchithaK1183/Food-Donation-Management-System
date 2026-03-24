@@ -35,7 +35,7 @@ CREATE TABLE requests (
 
 -- ================= SAMPLE DATA =================
 INSERT INTO users (name, email, password, role) VALUES
-('architha', 'architha9998.com', '1234', 'Donor'),
+('architha', 'architha9998@gmail.com', '1234', 'Donor'),
 ('chinnu', 'chinnu@gmail.com', '1234', 'Receiver');
 
 INSERT INTO donations (user_id, food_type, quantity, location, expiry_time, status) VALUES
